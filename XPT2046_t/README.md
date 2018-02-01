@@ -1,4 +1,10 @@
-# XPT2046
+# XPT2046_t
+
+This is an edited Version of the XPT2046 Library written by spapadim. It implements a basic saving of the Calibration to the EEPROM and loading it back. The Calibration example is also edited to be used with ILI9341_t3 by Paul Stoffregen
+
+
+
+The Original README from the XPT2046 Library:
 
 Arduino library for XPT2046 / ADS7843 touchscreen driver.
 
