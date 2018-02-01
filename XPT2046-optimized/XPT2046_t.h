@@ -33,6 +33,10 @@ public:
   void getCalibrationPoints(uint16_t &x1, uint16_t &y1, uint16_t &x2, uint16_t &y2);
   void setCalibration (uint16_t vi1, uint16_t vj1, uint16_t vi2, uint16_t vj2);
 
+  //Added from me for calibration
+  void saveToEEPROM(uint16_t vi1, uint16_t vj1, uint16_t vi2, uint16_t vj2);
+  void setSavedCalibration();
+
   bool isTouching() const { return (digitalRead(_irq_pin) == LOW); }
 
   void getRaw(uint16_t &vi, uint16_t &vj, adc_ref_t mode = MODE_DFR, uint8_t max_samples = 0xff) const;

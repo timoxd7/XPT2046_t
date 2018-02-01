@@ -14,8 +14,6 @@
 #include <ILI9341_t3.h>
 #include "XPT2046_t.h"
 
-#include <EEPROM.h>
-
 // Modify the following two lines to match your hardware
 #define TFT_DC   15
 #define TFT_CS   10
@@ -89,17 +87,7 @@ void calibrate() {
   display.print("Writing to EEPROM...");
 
   //Save to EEPROM
-  int eepromAdress = 0;
-  EEPROM.put(eepromAdress, vi1);
-  eepromAdress += sizeof(vi1);
-
-  EEPROM.put(eepromAdress, vj1);
-  eepromAdress += sizeof(vj1);
-
-  EEPROM.put(eepromAdress, vi2);
-  eepromAdress += sizeof(vi2);
-
-  EEPROM.put(eepromAdress, vj2);
+  touch.saveToEEPROM(uint16_t vi1, uint16_t vj1, uint16_t vi2, uint16_t vj2);
 
   display.setCursor(0,100);
   display.print("Finish!");

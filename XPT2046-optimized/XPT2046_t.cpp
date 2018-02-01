@@ -10,6 +10,7 @@
 
 #include <Arduino.h>
 #include <SPI.h>
+#include <EEPROM.h>
 
 #include "XPT2046_t.h"
 
@@ -189,5 +190,41 @@ void XPT2046_t::powerDown() const {
   SPI.transfer(CTRL_HI_Y | CTRL_LO_SER);
   SPI.transfer16(0);  // Flush, just to be sure
   digitalWrite(_cs_pin, HIGH);
+}
+
+//Added from me
+void XPT2046_t::saveToEEPROM(uint16_t vi1, uint16_t vj1, uint16_t vi2, uint16_t vj2){
+  int eepromAdress = 0;
+  
+  EEPROM.put(eepromAdress, vi1);
+  eepromAdress += sizeof(vi1);
+
+  EEPROM.put(eepromAdress, vj1);
+  eepromAdress += sizeof(vj1);
+
+  EEPROM.put(eepromAdress, vi2);
+  eepromAdress += sizeof(vi2);
+
+  EEPROM.put(eepromAdress, vj2);
+}
+
+void XPT2046_t::setSavedCalibration(){
+  uint16_t vi1, vj1, vi2, vj2;
+
+  int eepromAdress = 0;
+  
+  EEPROM.get(eepromAdress, vi1);
+  eepromAdress += sizeof(vi1);
+
+  EEPROM.get(eepromAdress, vj1);
+  eepromAdress += sizeof(vj1);
+
+  EEPROM.get(eepromAdress, vi2);
+  eepromAdress += sizeof(vi2);
+
+  EEPROM.get(eepromAdress, vj2);
+
+
+  this->setCalibration(vi1, vj1, vi2, vj2);
 }
 
