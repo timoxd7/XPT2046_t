@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2015-2016  Spiros Papadimitriou
  *
- * This file is part of github.com/spapadim/XPT2046-t and is released
+ * This file is part of github.com/spapadim/XPT2046_t and is released
  * under the MIT License: https://opensource.org/licenses/MIT
  *
  * This software is distributed on an "AS IS" basis,
@@ -11,7 +11,7 @@
 #include <Arduino.h>
 #include <SPI.h>
 
-#include "XPT2046-t.h"
+#include "XPT2046_t.h"
 
 
 inline static void swap(uint16_t &a, uint16_t &b) {
@@ -65,11 +65,11 @@ static uint16_t mean (const uint16_t *vals, uint8_t n) {
 #endif // 0
 /**********************************************************/
 
-XPT2046-t::XPT2046-t (uint8_t cs_pin, uint8_t irq_pin) 
+XPT2046_t::XPT2046_t (uint8_t cs_pin, uint8_t irq_pin) 
 : _cs_pin(cs_pin), _irq_pin(irq_pin) {
 }
 
-void XPT2046-t::begin(uint16_t width, uint16_t height) {
+void XPT2046_t::begin(uint16_t width, uint16_t height) {
   pinMode(_cs_pin, OUTPUT);
   pinMode(_irq_pin, INPUT_PULLUP);
 
@@ -91,13 +91,13 @@ void XPT2046-t::begin(uint16_t width, uint16_t height) {
   powerDown();  // Make sure PENIRQ is enabled
 }
 
-void XPT2046-t::getCalibrationPoints(uint16_t &x1, uint16_t &y1, uint16_t &x2, uint16_t &y2) {
+void XPT2046_t::getCalibrationPoints(uint16_t &x1, uint16_t &y1, uint16_t &x2, uint16_t &y2) {
   x1 = y1 = CAL_MARGIN;
   x2 = _width - CAL_MARGIN;
   y2 = _height - CAL_MARGIN;
 }
 
-void XPT2046-t::setCalibration (uint16_t vi1, uint16_t vj1, uint16_t vi2, uint16_t vj2) {
+void XPT2046_t::setCalibration (uint16_t vi1, uint16_t vj1, uint16_t vi2, uint16_t vj2) {
   _cal_dx = _width - 2*CAL_MARGIN;
   _cal_dy = _height - 2*CAL_MARGIN;
 
@@ -107,7 +107,7 @@ void XPT2046-t::setCalibration (uint16_t vi1, uint16_t vj1, uint16_t vi2, uint16
   _cal_dvj = (int32_t)vj2 - vj1;
 }
 
-uint16_t XPT2046-t::_readLoop(uint8_t ctrl, uint8_t max_samples) const {
+uint16_t XPT2046_t::_readLoop(uint8_t ctrl, uint8_t max_samples) const {
   uint16_t prev = 0xffff, cur = 0xffff;
   uint8_t i = 0;
   do {
@@ -121,7 +121,7 @@ uint16_t XPT2046-t::_readLoop(uint8_t ctrl, uint8_t max_samples) const {
 
 // TODO: Caveat - MODE_SER is completely untested!!
 //   Need to measure current draw and see if it even makes sense to keep it as an option
-void XPT2046-t::getRaw (uint16_t &vi, uint16_t &vj, adc_ref_t mode, uint8_t max_samples) const {
+void XPT2046_t::getRaw (uint16_t &vi, uint16_t &vj, adc_ref_t mode, uint8_t max_samples) const {
   // Implementation based on TI Technical Note http://www.ti.com/lit/an/sbaa036/sbaa036.pdf
 
   uint8_t ctrl_lo = ((mode == MODE_DFR) ? CTRL_LO_DFR : CTRL_LO_SER);
@@ -142,7 +142,7 @@ void XPT2046-t::getRaw (uint16_t &vi, uint16_t &vj, adc_ref_t mode, uint8_t max_
   digitalWrite(_cs_pin, HIGH);
 }
 
-void XPT2046-t::getPosition (uint16_t &x, uint16_t &y, adc_ref_t mode, uint8_t max_samples) const {
+void XPT2046_t::getPosition (uint16_t &x, uint16_t &y, adc_ref_t mode, uint8_t max_samples) const {
   if (!isTouching()) {
     x = y = 0xffff;
     return;
@@ -182,7 +182,7 @@ void XPT2046-t::getPosition (uint16_t &x, uint16_t &y, adc_ref_t mode, uint8_t m
   }
 }
 
-void XPT2046-t::powerDown() const {
+void XPT2046_t::powerDown() const {
   digitalWrite(_cs_pin, LOW);
   // Issue a throw-away read, with power-down enabled (PD{1,0} == 0b00)
   // Otherwise, ADC is disabled

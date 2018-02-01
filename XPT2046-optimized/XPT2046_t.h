@@ -1,15 +1,15 @@
 /*
  * Copyright (c) 2015-2016  Spiros Papadimitriou
  *
- * This file is part of github.com/spapadim/XPT2046-t and is released
+ * This file is part of github.com/spapadim/XPT2046_t and is released
  * under the MIT License: https://opensource.org/licenses/MIT
  *
  * This software is distributed on an "AS IS" basis,
  * WITHOUT WARRANTY OF ANY KIND, either express or implied.
  */
 
-#ifndef XPT2046-t_h
-#define XPT2046-t_h
+#ifndef XPT2046_t_h
+#define XPT2046_t_h
 
 // On my display driver ICs i,j mapped to (width-y),x
 //  Flipping can be handled by order of calibration points, but not swapping
@@ -17,14 +17,14 @@
 #  define SWAP_AXES 1
 #endif
 
-class XPT2046-t {
+class XPT2046_t {
 public:
   static const uint16_t CAL_MARGIN = 20;
 
   enum rotation_t : uint8_t { ROT0, ROT90, ROT180, ROT270 };
   enum adc_ref_t : uint8_t { MODE_SER, MODE_DFR };
 
-  XPT2046-t (uint8_t cs_pin, uint8_t irq_pin);
+  XPT2046_t (uint8_t cs_pin, uint8_t irq_pin);
 
   void begin(uint16_t width, uint16_t height);  // width and height with no rotation!
   void setRotation(rotation_t rot) { _rot = rot; }
@@ -58,4 +58,4 @@ private:
   uint16_t _readLoop(uint8_t ctrl, uint8_t max_samples) const;
 };
 
-#endif  //XPT2046-t_h
+#endif  //XPT2046_t_h

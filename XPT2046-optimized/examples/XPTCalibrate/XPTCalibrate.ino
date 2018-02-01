@@ -12,7 +12,7 @@
 #include <SPI.h>
 
 #include <ILI9341_t3.h>
-#include <XPT2046-t.h>
+#include "XPT2046_t.h"
 
 #include <EEPROM.h>
 
@@ -24,6 +24,7 @@
 #define TFT_CLK  13
 #define TFT_RST  4
 #define TFT_LED  19
+
 #define TOUCH_CS  16
 #define TOUCH_IRQ 0
 
@@ -38,7 +39,7 @@
 
 //Create Display and Touch object
 ILI9341_t3 display = ILI9341_t3(TFT_CS, TFT_DC, TFT_RST, TFT_MOSI, TFT_CLK, TFT_MISO);
-XPT2046 touch(TOUCH_CS, TOUCH_IRQ);
+XPT2046_t touch(TOUCH_CS, TOUCH_IRQ);
 
 static void calibratePoint(uint16_t x, uint16_t y, uint16_t &vi, uint16_t &vj) {
   // Draw cross
